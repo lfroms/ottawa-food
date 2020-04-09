@@ -37,3 +37,9 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# The ruby implementation of the GraphQL language.
+gem "graphql", "~> 1.10"
+
+# A development utility to test GraphQL queries.
+gem "graphiql-rails", "~> 1.7", group: :development
