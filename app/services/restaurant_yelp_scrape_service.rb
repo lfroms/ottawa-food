@@ -9,7 +9,7 @@ class RestaurantYelpScrapeService < UseCaseService
     Rails.logger.info("Scraped Yelp for #{yelp_id}")
   end
 
-    private
+  private
 
   def parsed_html(yelp_id)
     Nokogiri::HTML(raw_html(yelp_id))
@@ -20,4 +20,4 @@ class RestaurantYelpScrapeService < UseCaseService
 
     HTTP.get(uri).to_s
   end
-  end
+end
