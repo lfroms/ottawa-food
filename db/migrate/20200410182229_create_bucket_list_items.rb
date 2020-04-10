@@ -7,5 +7,7 @@ class CreateBucketListItems < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+
+    add_index :bucket_list_items, [:user_id, :restaurant_id], unique: true
   end
 end

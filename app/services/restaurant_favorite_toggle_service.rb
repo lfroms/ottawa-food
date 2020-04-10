@@ -1,17 +1,12 @@
 # frozen_string_literal: true
 class RestaurantFavoriteToggleService < UseCaseService
   def execute(user_id:, restaurant_id:)
-    restaurant = Restaurant.find_by(id: restaurant_id)
-    user = User.find(user_id)
-
-    return if restaurant.blank?
-
-    favorite = Favorite.find_by(user: user, restaurant: restaurant)
+    favorite = Favorite.find_by(user_id: user_id, restaurant_id: restaurant_id)
 
     if favorite.present?
       favorite.destroy
     else
-      Favorite.create(user: user, restaurant: restaurant)
+      Favorite.create(user_id: user_id, restaurant_id: restaurant_id)
     end
   end
 end

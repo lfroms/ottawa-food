@@ -5,5 +5,6 @@ module Types
     field :name, String, null: false
     field :email, String, null: false
     field :favorite_restaurants, [RestaurantType], null: false
+    field :bucket_list_items, BucketListItemType.connection_type, null: false
   end
 end

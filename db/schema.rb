@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_182229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["restaurant_id"], name: "index_bucket_list_items_on_restaurant_id"
+    t.index ["user_id", "restaurant_id"], name: "index_bucket_list_items_on_user_id_and_restaurant_id", unique: true
     t.index ["user_id"], name: "index_bucket_list_items_on_user_id"
   end
 

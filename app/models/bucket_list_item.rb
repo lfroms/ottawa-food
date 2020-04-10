@@ -6,7 +6,7 @@ class BucketListItem < ApplicationRecord
   belongs_to :restaurant
 
   validates :user, uniqueness: { scope: :restaurant }
-  
+
   def completed?
     !pending?
   end
