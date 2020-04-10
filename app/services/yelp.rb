@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'graphql/client/http'
 
 module Yelp
   HTTP = GraphQL::Client::HTTP.new('https://api.yelp.com/v3/graphql') do
-    def headers(context)
+    def headers(_context)
       yelp_key = ENV['YELP_KEY']
       bearer = "Bearer #{yelp_key}"
 

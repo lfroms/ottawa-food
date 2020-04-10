@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
-git_source(:github) { |repo| 'https://github.com/#{repo}.git' }
+git_source(:github) { |_repo| 'https://github.com/#{repo}.git' }
 
 ruby '2.6.3'
 
@@ -24,20 +25,21 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 group :development, :test do
-  gem 'pry', '~> 0.13.0'
   gem 'dotenv-rails', '~> 2.7'
+  gem 'pry', '~> 0.13.0'
 end
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'rubocop', '~> 0.81.0'
+  gem 'solargraph', '~> 0.38.6'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'solargraph', '~> 0.38.6'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # The ruby implementation of the GraphQL language.
 gem 'graphql', '~> 1.10'
@@ -45,3 +47,5 @@ gem 'graphql', '~> 1.10'
 # A development utility to test GraphQL queries.
 gem 'graphiql-rails', '~> 1.7', group: :development
 gem 'graphql-client', '~> 0.16.0'
+
+gem "rubocop-rails", "~> 2.5"

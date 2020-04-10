@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SyncRestaurantFromYelpJob < ApplicationJob
   queue_as :urgent
 

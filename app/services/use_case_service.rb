@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UseCaseService
   def self.execute(params = {})
     new.execute(params)
