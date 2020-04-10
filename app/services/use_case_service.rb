@@ -5,6 +5,6 @@ class UseCaseService
   end
 
   def execute(_params)
-    raise NotImplementedError, "#execute must be implemented by the child class"
+    raise NotImplementedError, '#execute must be implemented by the child class'
   end
 end

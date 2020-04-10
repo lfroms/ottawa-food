@@ -48,4 +48,4 @@ gem 'graphql', '~> 1.10'
 gem 'graphiql-rails', '~> 1.7', group: :development
 gem 'graphql-client', '~> 0.16.0'
 
-gem "rubocop-rails", "~> 2.5"
+gem 'rubocop-rails', '~> 2.5'
