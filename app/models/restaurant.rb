@@ -7,6 +7,10 @@ class Restaurant < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :bucket_list_items, dependent: :destroy
 
+  def favorite?(user_id:)
+    favorites.exists?(user_id: user_id)
+  end
+
   def sync_from_yelp
     SyncRestaurantFromYelpJob.perform_later(yelp_id: yelp_id)
     SyncRestaurantDetailsFromYelpPageJob.perform_later(yelp_id: yelp_id)

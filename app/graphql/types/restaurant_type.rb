@@ -5,5 +5,10 @@ module Types
     field :yelp_id, String, null: false
     field :name, String, null: false
     field :image_url, String, null: true
+    field :favorite, Boolean, null: false
+
+    def favorite
+      object.favorite?(user_id: context[:current_user])
+    end
   end
 end
