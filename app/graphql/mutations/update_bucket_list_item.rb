@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Mutations
   class UpdateBucketListItem < BaseMutation
-    field :bucket_list_item, Types::BucketListItemType, null: false
+    field :bucket_list_item, Types::BucketListItemType, null: true
 
     argument :restaurant_id, ID, required: true
     argument :status, Types::BucketListItemStatusType, required: true
