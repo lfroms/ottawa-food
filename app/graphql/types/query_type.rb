@@ -2,7 +2,7 @@
 module Types
   class QueryType < Types::BaseObject
     field :current_user, UserType, null: true do
-      description "Retrieve my profile."
+      description 'Retrieve my profile.'
     end
 
     def current_user

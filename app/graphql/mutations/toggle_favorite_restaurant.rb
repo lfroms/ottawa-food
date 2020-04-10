@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Mutations
   class ToggleFavoriteRestaurant < BaseMutation
     field :restaurant, Types::RestaurantType, null: false
@@ -5,18 +6,7 @@ module Mutations
     argument :id, ID, required: true
 
     def resolve(id:)
-      restaurant = Restaurant.find_by(id: id)
-      user = User.find(context[:current_user])
-
-      return unless restaurant.present?
-
-      favorite = Favorite.find_by(user: user, restaurant: restaurant)
-
-      if favorite.present?
-        favorite.destroy
-      else
-        Favorite.create(user: user, restaurant: restaurant)
-      end
+      RestaurantFavoriteToggleService.execute(user_id: context[:current_user], restaurant_id: id)
     end
   end
 end
