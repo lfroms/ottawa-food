@@ -7,5 +7,7 @@ class CreateRestaurants < ActiveRecord::Migration[6.0]
 
       t.timestamps null: false
     end
+
+    add_index :restaurants, [:yelp_id], unique: true
   end
 end

@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_182229) do
     t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["yelp_id"], name: "index_restaurants_on_yelp_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

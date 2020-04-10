@@ -2,7 +2,7 @@
 class Restaurant < ApplicationRecord
   after_create_commit :sync_from_yelp
 
-  validates :yelp_id, presence: true
+  validates :yelp_id, presence: true, uniqueness: true
 
   has_many :favorites, dependent: :destroy
   has_many :bucket_list_items, dependent: :destroy
