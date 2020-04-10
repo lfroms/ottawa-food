@@ -7,5 +7,9 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(name: "Lukas Romsicki", email: "lukas@romsicki.com")
+
 Restaurant.create(yelp_id: "beckta-dining-and-wine-ottawa-2")
+Restaurant.create(yelp_id: "sansotei-ramen-ottawa")
+
 Favorite.create(user_id: 1, restaurant_id: 1)
+Favorite.create(user_id: 1, restaurant_id: 2)
