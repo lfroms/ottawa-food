@@ -5,7 +5,7 @@ class Restaurant < ApplicationRecord
   validates :yelp_id, presence: true
 
   has_many :favorites, dependent: :destroy
-  has_many :users, through: :favorites, dependent: :destroy
+  has_many :bucket_list_items, dependent: :destroy
 
   def sync_from_yelp
     SyncRestaurantFromYelpJob.perform_later(yelp_id: yelp_id)
