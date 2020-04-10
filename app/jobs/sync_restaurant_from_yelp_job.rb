@@ -4,7 +4,7 @@ class SyncRestaurantFromYelpJob < ApplicationJob
 
   def perform(restaurant_id:)
     restaurant = Restaurant.find(restaurant_id)
-    business = Yelp::YelpBusinessService.execute(yelp_id: restaurant.yelp_id).data.business
+    business = Yelp::Business.get(yelp_id: restaurant.yelp_id).data.business
 
     restaurant.update(name: business.name, image_url: business.photos.first)
   end

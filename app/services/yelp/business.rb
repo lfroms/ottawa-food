@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Yelp
-  class YelpBusinessService < UseCaseService
+  class Business
     Query = Yelp::Client.parse(<<-'GRAPHQL')
       query($id: String!) {
         business(id: $id) {
@@ -10,8 +10,8 @@ module Yelp
       }
     GRAPHQL
 
-    def execute(yelp_id:)
-      Yelp::Client.query(Query, variables: { id: yelp_id })
+    def self.get(yelp_id:)
+      Client.query(Query, variables: { id: yelp_id })
     end
   end
 end
