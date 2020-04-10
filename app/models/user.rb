@@ -4,5 +4,5 @@ class User < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :favorites, dependent: :destroy
-  has_many :favorite_restaurants, through: :favorites, source: :restaurant
+  has_many :favorite_restaurants, through: :favorites, source: :restaurant, dependent: :destroy
 end

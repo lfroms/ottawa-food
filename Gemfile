@@ -33,6 +33,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'rubocop', '~> 0.81.0'
+  gem 'rubocop-rails', '~> 2.5'
   gem 'solargraph', '~> 0.38.6'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -48,4 +49,6 @@ gem 'graphql', '~> 1.10'
 gem 'graphiql-rails', '~> 1.7', group: :development
 gem 'graphql-client', '~> 0.16.0'
 
-gem 'rubocop-rails', '~> 2.5'
+gem 'nokogiri', '~> 1.10'
+
+gem 'http', '~> 4.4'
