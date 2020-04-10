@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 2020_04_10_004127) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string "yelp_id", null: false
+    t.string "name"
+    t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

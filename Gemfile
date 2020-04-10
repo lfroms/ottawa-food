@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+git_source(:github) { |repo| 'https://github.com/#{repo}.git' }
 
 ruby '2.6.3'
 
@@ -24,8 +24,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry', '~> 0.13.0'
+  gem 'dotenv-rails', '~> 2.7'
 end
 
 group :development do
@@ -44,3 +44,4 @@ gem 'graphql', '~> 1.10'
 
 # A development utility to test GraphQL queries.
 gem 'graphiql-rails', '~> 1.7', group: :development
+gem 'graphql-client', '~> 0.16.0'
