@@ -27,6 +27,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   gem 'dotenv-rails', '~> 2.7'
   gem 'pry', '~> 0.13.0'
+  gem 'pry-rails', '~> 0.3.9'
 end
 
 group :development do
