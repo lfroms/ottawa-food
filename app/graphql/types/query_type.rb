@@ -16,5 +16,13 @@ module Types
     def trending_restaurants
       TrendingRestaurant.all.includes(:restaurant).order(:index)
     end
+
+    field :ottawa_favorites, OttawaFavoriteType.connection_type, null: false do
+      description 'Retrieve an ordered list of Ottawa\'s current favorites.'
+    end
+
+    def ottawa_favorites
+      OttawaFavorite.all.includes(:restaurant).order(:index)
+    end
   end
 end
