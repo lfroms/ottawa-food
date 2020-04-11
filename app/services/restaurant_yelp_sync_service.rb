@@ -5,7 +5,15 @@ class RestaurantYelpSyncService < UseCaseService
 
     return if restaurant.blank?
 
-    business = Yelp::Business.get(yelp_id: yelp_id).data.business
+    response = Yelp::Business.get(yelp_id: yelp_id)
+
+    if response.data.nil?
+      Rails.logger.error("Unable to fetch data for business with id: #{yelp_id}")
+    end
+
+    business = response.data.business
+
+    return if business.blank?
 
     params = {
       name: business.name,
