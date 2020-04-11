@@ -6,6 +6,16 @@ class RestaurantYelpSyncService < UseCaseService
     return if restaurant.blank?
 
     business = Yelp::Business.get(yelp_id: yelp_id).data.business
-    restaurant.update(name: business.name, image_url: business.photos.first)
+
+    params = {
+      name: business.name,
+      image_url: business.photos.first,
+      yelp_url: business.url,
+      phone: business.phone,
+      yelp_rating: business.rating,
+      price_level: business.price,
+    }
+
+    restaurant.update(params)
   end
 end

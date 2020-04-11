@@ -3,6 +3,10 @@ class Restaurant < ApplicationRecord
   after_create_commit :sync_from_yelp
 
   validates :yelp_id, presence: true, uniqueness: true
+  validates :yelp_url, format: { with: /#{URI.regexp}/ }, allow_nil: true
+  validates :phone, presence: false
+  validates :yelp_rating, presence: false
+  validates :price_level, presence: false
 
   has_many :favorites, dependent: :destroy
   has_many :bucket_list_items, dependent: :destroy

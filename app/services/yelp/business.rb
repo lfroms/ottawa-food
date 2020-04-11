@@ -6,6 +6,10 @@ module Yelp
         business(id: $id) {
           name
           photos
+          url
+          phone
+          rating
+          price
         }
       }
     GRAPHQL
