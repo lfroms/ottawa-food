@@ -8,8 +8,8 @@ class TrendingRestaurantsCalculateService < UseCaseService
   private
 
   def last_250_favorited_or_listed
-    favorites = Favorite.includes(:restaurant).last(250)
-    bucket_list_items = BucketListItem.includes(:restaurant).last(250)
+    favorites = Favorite.includes(:restaurant).order(:created_at).last(250)
+    bucket_list_items = BucketListItem.includes(:restaurant).pending.order(:created_at).last(250)
 
     (favorites + bucket_list_items).sort_by(&:created_at).take(250)
   end
