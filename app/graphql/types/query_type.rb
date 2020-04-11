@@ -8,5 +8,13 @@ module Types
     def current_user
       User.find_by(id: context[:current_user])
     end
+
+    field :trending_restaurants, TrendingRestaurantType.connection_type, null: false do
+      description 'Retrieve an ordered list of trending restaurants.'
+    end
+
+    def trending_restaurants
+      TrendingRestaurant.all.includes(:restaurant).order(:index)
+    end
   end
 end
