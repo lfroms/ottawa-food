@@ -3,10 +3,10 @@ module Mutations
   class ToggleFavoriteRestaurant < BaseMutation
     field :restaurant, Types::RestaurantType, null: false
 
-    argument :id, ID, required: true
+    argument :yelp_id, ID, required: true
 
-    def resolve(id:)
-      RestaurantFavoriteToggleService.execute(user_id: context[:current_user], restaurant_id: id)
+    def resolve(yelp_id:)
+      RestaurantFavoriteToggleService.execute(user_id: context[:current_user], yelp_id: yelp_id)
     end
   end
 end
