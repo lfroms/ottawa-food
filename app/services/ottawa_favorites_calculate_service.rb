@@ -7,50 +7,48 @@ class OttawaFavoritesCalculateService < UseCaseService
 
   private
 
-  def favorites_map
-    favorites_map = {}
+  def users_to_process
+    User.all.includes(:favorite_restaurants).includes(:bucket_list_restaurants)
+  end
+
+  def relevant_restaurants_for_user(user)
+    (user.favorite_restaurants + user.bucket_list_restaurants).uniq
+  end
+
+  def scored_restaurants
+    score_map = Hash.new(0)
+    yelp_ratings = {}
 
     users_to_process.find_each do |user|
       items = relevant_restaurants_for_user(user)
 
       items.each do |item|
-        restaurant_id = item.restaurant.id
-
-        if favorites_map.key?(restaurant_id)
-          favorites_map[restaurant_id] += 1
-        else
-          favorites_map[restaurant_id] = 1
-        end
+        score_map[item.id] += 1
+        yelp_ratings[item.id] = item.yelp_rating
       end
     end
 
-    favorites_map.each do |restaurant_id, count|
-      favorites_map[restaurant_id] = count * 4 # Yelp Rating
+    score_map.each do |restaurant_id, count|
+      score_map[restaurant_id] = count * yelp_ratings[restaurant_id]
     end
 
-    favorites_map
+    score_map
   end
 
-  def sorted_favorites
-    favorites_map.to_a.sort_by(&:count)
+  def sorted_restaurants
+    scored_restaurants.to_a.sort_by do |_key, value|
+      value
+    end
   end
 
   def objects_list
-    sorted_favorites.map.with_index(1) do |pair, index|
-      restaurant_id, _count = pair
+    sorted_restaurants.reverse.map.with_index(1) do |pair, index|
+      restaurant_id, count = pair
 
       # https://github.com/rails/rails/issues/35493
       now = Time.zone.now
 
-      { restaurant_id: restaurant_id, index: index, created_at: now, updated_at: now }
+      { restaurant_id: restaurant_id, index: index, score: count, created_at: now, updated_at: now }
     end
-  end
-
-  def relevant_restaurants_for_user(user)
-    (user.favorites.includes(:restaurant) + user.bucket_list_items.pending.includes(:restaurant))
-  end
-
-  def users_to_process
-    User.all
   end
 end
