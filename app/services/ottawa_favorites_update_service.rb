@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class OttawaFavoritesCalculateService < UseCaseService
+class OttawaFavoritesUpdateService < UseCaseService
   def execute(_)
     OttawaFavorite.delete_all
     OttawaFavorite.insert_all(objects_list)

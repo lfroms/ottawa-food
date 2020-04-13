@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class TrendingRestaurantsCalculateService < UseCaseService
+class TrendingRestaurantsUpdateService < UseCaseService
   def execute(_)
     TrendingRestaurant.delete_all
     TrendingRestaurant.insert_all(objects_list)

@@ -3,6 +3,6 @@ class UpdateOttawaFavoritesJob < ApplicationJob
   queue_as :default
 
   def perform(*_args)
-    OttawaFavoritesCalculateService.execute
+    OttawaFavoritesUpdateService.execute
   end
 end
