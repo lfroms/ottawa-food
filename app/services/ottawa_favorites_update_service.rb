@@ -29,7 +29,7 @@ class OttawaFavoritesUpdateService < UseCaseService
     end
 
     score_map.each do |restaurant_id, count|
-      score_map[restaurant_id] = count * yelp_ratings[restaurant_id]
+      score_map[restaurant_id] = count * (yelp_ratings[restaurant_id] || 0)
     end
 
     score_map

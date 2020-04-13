@@ -9,6 +9,7 @@ class RestaurantYelpSyncService < UseCaseService
 
     if response.data.nil?
       Rails.logger.error("Unable to fetch data for business with id: #{yelp_id}")
+      return
     end
 
     business = response.data.business
