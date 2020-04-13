@@ -10,12 +10,12 @@ module Types
     end
 
     field :restaurant, RestaurantType, null: true do
-      argument :id, ID, required: true
+      argument :yelp_id, ID, required: true
       description 'Retrieve details about a particular restaurant.'
     end
 
-    def restaurant(id:)
-      Restaurant.find_by(id: id)
+    def restaurant(yelp_id:)
+      Restaurant.find_otherwise_create(yelp_id: yelp_id)
     end
 
     field :trending_restaurants, TrendingRestaurantType.connection_type, null: false do
@@ -24,6 +24,23 @@ module Types
 
     def trending_restaurants
       TrendingRestaurant.all.includes(:restaurant).order(:index)
+    end
+
+    field :search, [YelpSearchResultType], null: false do
+      argument :query, String, required: true
+      description 'Search for restaurants.'
+    end
+
+    def search(query:)
+      businesses = Yelp::Search.perform(query: query).data.search.business
+
+      businesses.map do |business|
+        {
+          yelp_id: business.id,
+          name: business.name,
+          address: business.location.address1,
+        }
+      end
     end
 
     field :ottawa_favorites, OttawaFavoriteType.connection_type, null: false do

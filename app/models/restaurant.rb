@@ -22,4 +22,12 @@ class Restaurant < ApplicationRecord
   def sync_from_yelp
     SyncRestaurantFromYelpJob.perform_later(yelp_id: yelp_id)
   end
+
+  def self.find_otherwise_create(yelp_id:)
+    restaurant = find_by(yelp_id: yelp_id)
+
+    return restaurant unless restaurant.nil?
+
+    create(yelp_id: yelp_id)
+  end
 end
