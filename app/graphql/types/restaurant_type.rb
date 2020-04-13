@@ -10,9 +10,14 @@ module Types
     field :yelp_rating, String, null: true
     field :price_level, String, null: true
     field :favorite, Boolean, null: false
+    field :in_bucket_list, Boolean, null: false
 
     def favorite
       object.favorite?(user_id: context[:current_user])
+    end
+
+    def in_bucket_list
+      object.in_bucket_list?(user_id: context[:current_user])
     end
   end
 end

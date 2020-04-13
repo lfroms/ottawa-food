@@ -15,6 +15,10 @@ class Restaurant < ApplicationRecord
     favorites.exists?(user_id: user_id)
   end
 
+  def in_bucket_list?(user_id:)
+    bucket_list_items.exists?(user_id: user_id)
+  end
+
   def sync_from_yelp
     SyncRestaurantFromYelpJob.perform_later(yelp_id: yelp_id)
   end

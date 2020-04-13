@@ -2,7 +2,7 @@
 class TrendingRestaurantsCalculateService < UseCaseService
   def execute(_)
     TrendingRestaurant.delete_all
-    TrendingRestaurant.create(objects_list)
+    TrendingRestaurant.insert_all(objects_list)
   end
 
   private
@@ -38,7 +38,10 @@ class TrendingRestaurantsCalculateService < UseCaseService
     sorted_favorites.map.with_index(1) do |pair, index|
       restaurant_id, _count = pair
 
-      { restaurant_id: restaurant_id, index: index }
+      # https://github.com/rails/rails/issues/35493
+      now = Time.zone.now
+
+      { restaurant_id: restaurant_id, index: index, created_at: now, updated_at: now }
     end
   end
 end
