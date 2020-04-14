@@ -26,12 +26,21 @@ class UserRecommendationsUpdateService < UseCaseService
 
     sorted = recommendation_map.sort_by do |_id, score|
       score
-    end.to_h
+    end.select { |restaurant_id, _index| !user_restaurants.any? { |restaurant| restaurant.id == restaurant_id } }
 
-    recommendations = sorted.values - user_restaurants
+    # recommendations = sorted.values - user_restaurants
+
+    object_list = sorted.reverse.map.with_index(1) do |pair, index|
+      restaurant_id, score = pair
+
+      # https://github.com/rails/rails/issues/35493
+      now = Time.zone.now
+
+      { user_id: user_id, restaurant_id: restaurant_id, score: score, index: index, created_at: now, updated_at: now }
+    end
 
     user.recommendations.delete_all
-    user.recommendations.create([{ restaurant: Restaurant.first, index: 0 }])
+    user.recommendations.insert_all(object_list)
   end
 
   private
@@ -47,9 +56,12 @@ class UserRecommendationsUpdateService < UseCaseService
     all_other_users.find_each do |user|
       user_restaurants = restaurants_for_user(user)
 
-      if (subset - user_restaurants).empty?
+      if user_restaurants.contains_all?(subset)
         count_of_identical_subsets += 1
-        probability_map[1] += 1
+
+        user_restaurants.each do |restaurant|
+          probability_map[restaurant.id] += 1
+        end
       end
     end
 
@@ -62,5 +74,11 @@ class UserRecommendationsUpdateService < UseCaseService
 
   def restaurants_for_user(user)
     (user.favorite_restaurants + user.bucket_list_restaurants).uniq
+  end
+end
+
+class Array
+  def contains_all?(other)
+    (other - self).empty?
   end
 end

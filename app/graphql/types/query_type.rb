@@ -56,7 +56,7 @@ module Types
     end
 
     def recommendations
-      current_user.recommendations.order(:index)
+      current_user.recommendations.includes(:restaurant).order(:index)
     end
   end
 end
