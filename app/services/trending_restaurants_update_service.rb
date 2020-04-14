@@ -8,25 +8,23 @@ class TrendingRestaurantsUpdateService < UseCaseService
   private
 
   def last_250_favorited_or_listed
-    favorites = Favorite.includes(:restaurant).order(:created_at).last(250)
-    bucket_list_items = BucketListItem.includes(:restaurant).pending.order(:created_at).last(250)
+    favorites = Favorite.includes(:restaurant)
+    bucket_list_items = BucketListItem.includes(:restaurant).pending
 
-    (favorites + bucket_list_items).sort_by(&:created_at).take(250)
+    combined = get_250_newest(favorites) + get_250_newest(bucket_list_items)
+
+    combined.uniq.sort_by(&:created_at).take(250)
   end
 
   def scored_restaurants
-    score_map = Hash.new(0)
-
-    last_250_favorited_or_listed.each do |item|
-      score_map[item.restaurant.id] += 1
+    last_250_favorited_or_listed.each_with_object(Hash.new(0)) do |item, scores|
+      scores[item.restaurant.id] += 1
     end
-
-    score_map
   end
 
   def sorted_restaurants
-    scored_restaurants.to_a.sort_by do |_key, value|
-      value
+    scored_restaurants.sort_by do |_item, score|
+      score
     end
   end
 
@@ -39,5 +37,9 @@ class TrendingRestaurantsUpdateService < UseCaseService
 
       { restaurant_id: restaurant_id, index: index, score: count, created_at: now, updated_at: now }
     end
+  end
+
+  def get_250_newest(relation)
+    relation.order(created_at: :desc).limit(250)
   end
 end
