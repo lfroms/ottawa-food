@@ -13,11 +13,11 @@ module Types
     field :in_bucket_list, Boolean, null: false
 
     def favorite
-      object.favorite?(user_id: context[:current_user])
+      object.favorite?(user_id: context[:current_user].id)
     end
 
     def in_bucket_list
-      object.in_bucket_list?(user_id: context[:current_user])
+      object.in_bucket_list?(user_id: context[:current_user].id)
     end
   end
 end

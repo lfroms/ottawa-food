@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Mutations
-  class CreateOrRetrieveRestaurant < BaseMutation
+  class CreateOrRetrieveRestaurant < AuthorizedMutation
     field :restaurant, Types::RestaurantType, null: false
 
     argument :yelp_id, ID, required: true

@@ -51,5 +51,5 @@ gem 'graphiql-rails', '~> 1.7', group: :development
 gem 'graphql-client', '~> 0.16.0'
 
 gem 'nokogiri', '~> 1.10'
-
 gem 'http', '~> 4.4'
+gem 'jwt', '~> 2.2'

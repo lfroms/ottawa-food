@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module Types
   class MutationType < Types::BaseObject
+    field :validate_apple_id, mutation: Mutations::ValidateAppleId
     description 'The set of mutations that can be performed.'
 
     field :create_or_retrieve_restaurant,

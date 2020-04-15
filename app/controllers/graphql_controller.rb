@@ -10,9 +10,9 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # TODO: Get from Apple
-      current_user: 3,
+      current_user: current_user,
     }
+
     result = OttawaFoodSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render(json: result)
   rescue => e
@@ -21,6 +21,10 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def current_user
+    @current_user ||= JsonWebToken::UserAuthenticator.validate(request.headers)
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)
