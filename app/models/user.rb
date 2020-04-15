@@ -10,4 +10,8 @@ class User < ApplicationRecord
   has_many :bucket_list_restaurants, through: :bucket_list_items, source: :restaurant, dependent: :destroy
 
   has_many :recommendations, dependent: :destroy
+
+  def restaurants_for_recommendation
+    (favorite_restaurants + bucket_list_restaurants).uniq
+  end
 end

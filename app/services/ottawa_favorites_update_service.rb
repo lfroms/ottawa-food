@@ -38,11 +38,11 @@ class OttawaFavoritesUpdateService < UseCaseService
   def sorted_restaurants
     scored_restaurants.to_a.sort_by do |_key, value|
       value
-    end
+    end.reverse
   end
 
   def objects_list
-    sorted_restaurants.reverse.map.with_index(1) do |pair, index|
+    sorted_restaurants.map.with_index(1) do |pair, index|
       restaurant_id, count = pair
 
       # https://github.com/rails/rails/issues/35493

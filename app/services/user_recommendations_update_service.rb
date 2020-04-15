@@ -1,32 +1,33 @@
 # frozen_string_literal: true
 class UserRecommendationsUpdateService < UseCaseService
-  attr :user
-
   def execute(user_id:)
-    @user = users_including_favorites.find_by(id: user_id)
+    @user = User.find_by(id: user_id)
 
     if @user.nil?
       Rails.logger.error("Could not calculate recommendations for user #{user_id}.")
       return
     end
 
-    sorted_restaurants
+    @user.recommendations.delete_all
+    Recommendation.insert_all(objects_list)
   end
 
   private
 
+  attr :user
+
   def scored_restaurants
     recommendation_map = Hash.new(0)
 
-    target_user_favorites = @user.favorite_restaurants
-    target_user_favorites_count = target_user_favorites.count
+    user_restaurants = @user.restaurants_for_recommendation
+    user_restaurants_count = user_restaurants.count
 
-    all_other_users.find_each do |user|
-      common_restaurants = user.favorite_restaurants & target_user_favorites
-      similarity = common_restaurants.size.to_f / target_user_favorites_count
+    all_other_users.find_each do |other_user|
+      common_restaurants = other_user.restaurants_for_recommendation & user_restaurants
+      similarity = common_restaurants.size.to_f / user_restaurants_count
 
-      (target_user_favorites - common_restaurants).each do |restaurant|
-        recommendation_map[restaurant] += similarity
+      (user_restaurants - common_restaurants).each do |restaurant|
+        recommendation_map[restaurant.id] += similarity
       end
     end
 
@@ -34,9 +35,20 @@ class UserRecommendationsUpdateService < UseCaseService
   end
 
   def sorted_restaurants
-    scored_restaurants.sort_by do |_restaurant, score|
+    scored_restaurants.sort_by do |_restaurant_id, score|
       score
     end.reverse
+  end
+
+  def objects_list
+    sorted_restaurants.map.with_index(1) do |pair, index|
+      restaurant_id, score = pair
+
+      # https://github.com/rails/rails/issues/35493
+      now = Time.zone.now
+
+      { restaurant_id: restaurant_id, user_id: @user.id, index: index, score: score, created_at: now, updated_at: now }
+    end
   end
 
   def all_other_users
@@ -44,6 +56,6 @@ class UserRecommendationsUpdateService < UseCaseService
   end
 
   def users_including_favorites
-    User.includes(:favorite_restaurants)
+    User.includes(:favorite_restaurants).includes(:bucket_list_restaurants)
   end
 end

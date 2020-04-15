@@ -25,11 +25,11 @@ class TrendingRestaurantsUpdateService < UseCaseService
   def sorted_restaurants
     scored_restaurants.sort_by do |_item, score|
       score
-    end
+    end.reverse
   end
 
   def objects_list
-    sorted_restaurants.reverse.map.with_index(1) do |pair, index|
+    sorted_restaurants.map.with_index(1) do |pair, index|
       restaurant_id, count = pair
 
       # https://github.com/rails/rails/issues/35493
