@@ -11,7 +11,7 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # TODO: Get from Apple
-      current_user: 1,
+      current_user: 3,
     }
     result = OttawaFoodSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render(json: result)

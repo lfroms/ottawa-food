@@ -47,7 +47,14 @@ class UserRecommendationsUpdateService < UseCaseService
       # https://github.com/rails/rails/issues/35493
       now = Time.zone.now
 
-      { restaurant_id: restaurant_id, user_id: @user.id, index: index, score: score, created_at: now, updated_at: now }
+      {
+        restaurant_id: restaurant_id,
+        user_id: @user.id,
+        index: index,
+        score: score.round(2),
+        created_at: now,
+        updated_at: now,
+      }
     end
   end
 
