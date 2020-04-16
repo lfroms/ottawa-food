@@ -13,9 +13,9 @@ module AppleId
       key_hash = HashWithIndifferentAccess.new(apple_certificate['keys'][0])
       jwk = JWT::JWK.import(key_hash)
 
-      token_data = JWT.decode(jwt, jwk.public_key.to_s, true, { algorithm: alg })[0]
+      token_data = JWT.decode(jwt, jwk.public_key, true, { algorithm: alg })[0]
 
-      user = UserCreateService.execute(name: name, email: token_data['email'], user_identity: token_data['sub'])
+      user = UserCreateService.execute(name: name, email: token_data['email'], apple_identity: token_data['sub'])
 
       JsonWebToken::Coder.encode({ user_id: user.id })
 

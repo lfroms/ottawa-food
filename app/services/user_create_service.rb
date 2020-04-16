@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 class UserCreateService < UseCaseService
-  def execute(name:, email:, user_identity:)
-    user = User.find_by(user_identity: user_identity)
+  def execute(name:, email:, apple_identity:)
+    user = User.find_by(apple_identity: apple_identity)
 
     if user.nil?
-      User.create(name: name, email: email, user_identity: user_identity)
+      User.create(name: name, email: email, apple_identity: apple_identity)
     else
       user
     end
