@@ -556,3 +556,6 @@ Favorite.create(user_id: 46, restaurant_id: 4)
 Favorite.create(user_id: 46, restaurant_id: 110)
 Favorite.create(user_id: 46, restaurant_id: 138)
 Favorite.create(user_id: 46, restaurant_id: 2)
+
+UpdateTrendingRestaurantsJob.perform_now
+UpdateOttawaFavoritesJob.perform_now
