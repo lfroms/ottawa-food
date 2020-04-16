@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 module Resolvers
   class Search < Resolvers::Base
-    type Types::YelpSearchResultType.connection_type, null: false
+    type [Types::YelpSearchResultType], null: false
 
-    def resolve
+    argument :query, String, required: true
+
+    def resolve(query:)
       data = Yelp::Search.perform(query: query).data
 
       return [] if data.nil?
