@@ -17,7 +17,9 @@ module AppleId
 
       user = UserCreateService.execute(name: name, email: token_data['email'], apple_identity: token_data['sub'])
 
-      JsonWebToken::Coder.encode({ user_id: user.id })
+      token = JsonWebToken::Coder.encode({ user_id: user.id })
+
+      [user, token]
 
     rescue StandardError => e
       raise GraphQL::ExecutionError, e
