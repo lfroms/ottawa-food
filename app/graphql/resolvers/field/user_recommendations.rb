@@ -5,7 +5,7 @@ module Resolvers
       type Types::RecommendationType.connection_type, null: false
 
       def resolve
-        object.recommendations.includes(:restaurant)
+        UserRecommendationsRetrieveService.execute(user_id: object.id)
       end
     end
   end

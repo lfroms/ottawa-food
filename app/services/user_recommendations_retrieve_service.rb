@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class UserRecommendationsUpdateService < UseCaseService
+class UserRecommendationsRetrieveService < UseCaseService
   def execute(user_id:)
     @user = User.find_by(id: user_id)
 
@@ -8,8 +8,7 @@ class UserRecommendationsUpdateService < UseCaseService
       return
     end
 
-    @user.recommendations.delete_all
-    Recommendation.insert_all(objects_list)
+    objects_list
   end
 
   private
@@ -28,7 +27,7 @@ class UserRecommendationsUpdateService < UseCaseService
       similarity = common_restaurants.size.to_f / user_restaurants_count
 
       (other_user_restaurants - common_restaurants).each do |restaurant|
-        recommendation_map[restaurant.id] += similarity
+        recommendation_map[restaurant] += similarity
       end
     end
 
@@ -43,18 +42,12 @@ class UserRecommendationsUpdateService < UseCaseService
 
   def objects_list
     sorted_restaurants.map.with_index(1) do |pair, index|
-      restaurant_id, score = pair
-
-      # https://github.com/rails/rails/issues/35493
-      now = Time.zone.now
+      restaurant, score = pair
 
       {
-        restaurant_id: restaurant_id,
-        user_id: @user.id,
+        restaurant: restaurant,
         index: index,
         score: score.round(2),
-        created_at: now,
-        updated_at: now,
       }
     end
   end
