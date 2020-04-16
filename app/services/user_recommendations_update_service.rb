@@ -23,10 +23,11 @@ class UserRecommendationsUpdateService < UseCaseService
     user_restaurants_count = user_restaurants.count
 
     all_other_users.find_each do |other_user|
-      common_restaurants = other_user.restaurants_for_recommendation & user_restaurants
+      other_user_restaurants = other_user.restaurants_for_recommendation
+      common_restaurants = other_user_restaurants & user_restaurants
       similarity = common_restaurants.size.to_f / user_restaurants_count
 
-      (user_restaurants - common_restaurants).each do |restaurant|
+      (other_user_restaurants - common_restaurants).each do |restaurant|
         recommendation_map[restaurant.id] += similarity
       end
     end
